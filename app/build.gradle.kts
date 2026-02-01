@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
     implementation(libs.google.gson)
+    implementation(libs.mediapipe.tasks.vision)
+    implementation(libs.mediapipe.tasks.text)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

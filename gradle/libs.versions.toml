@@ -10,8 +10,8 @@ activityCompose = "1.8.2"
 composeBom = "2024.02.00"
 hilt = "2.50"
 room = "2.6.1"
-gemma = "1.0.0-alpha01" 
-mediapipe = "0.10.10"
+gemma = "1.0.0-alpha01"
+mediapipe = "0.10.14"
 gson = "2.10.1"
 
 [libraries]
@@ -35,6 +35,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+mediapipe-tasks-vision = { group = "com.google.mediapipe", name = "tasks-vision", version.ref = "mediapipe" }
+mediapipe-tasks-text = { group = "com.google.mediapipe", name = "tasks-text", version.ref = "mediapipe" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
