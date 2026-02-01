@@ -28,11 +28,11 @@ class OverlayManager(private val context: Context) :
     // Lifecycle/SavedState boilerplate for Compose in Service
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
-    private val viewModelStore = ViewModelStore()
+    private val _viewModelStore = ViewModelStore()
 
-    override vallifecycle: Lifecycle get() = lifecycleRegistry
+    override val lifecycle: Lifecycle get() = lifecycleRegistry
     override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
-    override val viewModelStore: ViewModelStore get() = viewModelStore
+    override val viewModelStore: ViewModelStore get() = _viewModelStore
 
     fun show() {
         if (overlayView != null) return
@@ -84,6 +84,6 @@ class OverlayManager(private val context: Context) :
         
         windowManager.removeView(view)
         overlayView = null
-        viewModelStore.clear()
+        _viewModelStore.clear()
     }
 }

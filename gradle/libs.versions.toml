@@ -12,8 +12,10 @@ hilt = "2.50"
 room = "2.6.1"
 gemma = "1.0.0-alpha01" 
 mediapipe = "0.10.10"
+gson = "2.10.1"
 
 [libraries]
+google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

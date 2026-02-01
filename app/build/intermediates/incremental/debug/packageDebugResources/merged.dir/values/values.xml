@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="accessibility_service_description">AURA allows you to automate tasks on your device using AI. It observes the screen and performs actions on your behalf.</string>
-    <string name="accessibility_service_label">AURA God Mode</string>
-    <string name="app_name">AURA</string>
-    <style name="Theme.AURA" parent="android:Theme.Material.Light.NoActionBar"/>
-</resources>
