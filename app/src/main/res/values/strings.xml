@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AURA</string>
+    <string name="accessibility_service_label">AURA God Mode</string>
+    <string name="accessibility_service_description">AURA allows you to automate tasks on your device using AI. It observes the screen and performs actions on your behalf.</string>
+</resources>
