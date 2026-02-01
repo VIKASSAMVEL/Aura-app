@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.aura.app-merged_res-51:/xml_accessibility_service_config.xml.flat",
+        "source": "com.aura.app-main-53:/xml/accessibility_service_config.xml"
+    },
+    {
+        "merged": "com.aura.app-merged_res-51:/xml_data_extraction_rules.xml.flat",
+        "source": "com.aura.app-main-53:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.aura.app-merged_res-51:/xml_backup_rules.xml.flat",
+        "source": "com.aura.app-main-53:/xml/backup_rules.xml"
+    }
+]
