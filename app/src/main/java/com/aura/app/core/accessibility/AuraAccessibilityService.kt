@@ -34,7 +34,7 @@ class AuraAccessibilityService : AccessibilityService() {
         Log.i("AURA", "Service Connected")
         
         actionExecutor = ActionExecutor(this)
-        macroExecutor = com.aura.app.core.action.MacroExecutor(actionExecutor, com.aura.app.core.accessibility.NodeFinder)
+        macroExecutor = com.aura.app.core.action.MacroExecutor(actionExecutor, com.aura.app.core.action.NodeFinder, this)
 
         overlayManager = OverlayManager(
             context = this,

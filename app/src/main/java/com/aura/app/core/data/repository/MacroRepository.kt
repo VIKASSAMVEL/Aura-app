@@ -28,11 +28,17 @@ class MacroRepository @Inject constructor(
         }
     }
 
-    suspend fun getActionsForMacro(id: String): List<Action> {
-        val entity = macroDao.getMacroById(id) ?: return emptyList()
-        val type = object : com.google.gson.reflect.TypeToken<List<Action>>() {}.type
-        return gson.fromJson(entity.stepsJson, type)
+    suspend fun saveMacro(name: String, actions: List<Action>) {
+        val json = gson.toJson(actions)
+        val entity = MacroEntity(
+            id = java.util.UUID.randomUUID().toString(),
+            name = name,
+            stepsJson = json,
+            createdAt = System.currentTimeMillis()
+        )
+        macroDao.insertMacro(entity)
     }
+
     
     suspend fun deleteMacro(macro: MacroEntity) {
         macroDao.deleteMacro(macro)

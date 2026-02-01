@@ -1,15 +1,15 @@
 [
     {
-        "merged": "C:\\Users\\vikas\\.gradle\\daemon\\8.6\\com.aura.app-merged_res-51:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\vikas\\.gradle\\daemon\\8.6\\com.aura.app-main-53:\\xml\\backup_rules.xml"
-    },
-    {
         "merged": "com.aura.app-merged_res-51:/drawable_ic_launcher_foreground.xml.flat",
         "source": "com.aura.app-main-53:/drawable/ic_launcher_foreground.xml"
     },
     {
         "merged": "com.aura.app-merged_res-51:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "com.aura.app-main-53:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.aura.app-merged_res-51:/xml_accessibility_service_config.xml.flat",
+        "source": "com.aura.app-main-53:/xml/accessibility_service_config.xml"
     },
     {
         "merged": "com.aura.app-merged_res-51:/mipmap-anydpi-v26_ic_launcher.xml.flat",
@@ -20,11 +20,11 @@
         "source": "com.aura.app-main-53:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\vikas\\.gradle\\daemon\\8.6\\com.aura.app-merged_res-51:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\vikas\\.gradle\\daemon\\8.6\\com.aura.app-main-53:\\xml\\data_extraction_rules.xml"
+        "merged": "com.aura.app-merged_res-51:/xml_data_extraction_rules.xml.flat",
+        "source": "com.aura.app-main-53:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\vikas\\.gradle\\daemon\\8.6\\com.aura.app-merged_res-51:\\xml_accessibility_service_config.xml.flat",
-        "source": "C:\\Users\\vikas\\.gradle\\daemon\\8.6\\com.aura.app-main-53:\\xml\\accessibility_service_config.xml"
+        "merged": "com.aura.app-merged_res-51:/xml_backup_rules.xml.flat",
+        "source": "com.aura.app-main-53:/xml/backup_rules.xml"
     }
 ]

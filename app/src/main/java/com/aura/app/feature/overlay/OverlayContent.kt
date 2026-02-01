@@ -14,9 +14,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FiberManualRecord
-import androidx.compose.material.icons.filled.RadioButtonChecked
-import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -113,6 +112,7 @@ fun OverlayContent(
 
             Spacer(modifier = Modifier.width(16.dp))
 
+
             // Record Button (Futuristic Icon)
             IconButton(
                 onClick = onRecordClick,
@@ -121,7 +121,7 @@ fun OverlayContent(
                     .background(GlassWhite, CircleShape) // Glass background for button
             ) {
                 Icon(
-                    imageVector = if (isRecording) Icons.Filled.Stop else Icons.Filled.FiberManualRecord,
+                    imageVector = if (isRecording) Icons.Filled.Close else Icons.Filled.PlayArrow,
                     contentDescription = null,
                     tint = if (isRecording) NeonRed else NeonCyan,
                     modifier = Modifier.size(18.dp)

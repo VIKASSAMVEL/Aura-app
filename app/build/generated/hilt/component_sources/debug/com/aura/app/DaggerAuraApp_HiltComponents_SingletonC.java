@@ -8,6 +8,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 import com.aura.app.core.accessibility.AuraAccessibilityService;
+import com.aura.app.core.accessibility.AuraAccessibilityService_MembersInjector;
+import com.aura.app.core.ai.ScreenAnalyzer;
+import com.aura.app.core.data.local.dao.MacroDao;
+import com.aura.app.core.data.local.database.AuraDatabase;
+import com.aura.app.core.data.repository.MacroRepository;
+import com.aura.app.core.record.MacroRecorder;
+import com.aura.app.di.DataModule_ProvideDatabaseFactory;
+import com.aura.app.di.DataModule_ProvideGsonFactory;
+import com.aura.app.di.DataModule_ProvideMacroDaoFactory;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gson.Gson;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.ViewModelLifecycle;
 import dagger.hilt.android.internal.builders.ActivityComponentBuilder;
@@ -22,10 +35,10 @@ import dagger.hilt.android.internal.lifecycle.DefaultViewModelFactories_Internal
 import dagger.hilt.android.internal.managers.ActivityRetainedComponentManager_LifecycleModule_ProvideActivityRetainedLifecycleFactory;
 import dagger.hilt.android.internal.managers.SavedStateHandleHolder;
 import dagger.hilt.android.internal.modules.ApplicationContextModule;
+import dagger.hilt.android.internal.modules.ApplicationContextModule_ProvideContextFactory;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.DoubleCheck;
 import dagger.internal.Preconditions;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Provider;
@@ -45,25 +58,20 @@ public final class DaggerAuraApp_HiltComponents_SingletonC {
     return new Builder();
   }
 
-  public static AuraApp_HiltComponents.SingletonC create() {
-    return new Builder().build();
-  }
-
   public static final class Builder {
+    private ApplicationContextModule applicationContextModule;
+
     private Builder() {
     }
 
-    /**
-     * @deprecated This module is declared, but an instance is not used in the component. This method is a no-op. For more, see https://dagger.dev/unused-modules.
-     */
-    @Deprecated
     public Builder applicationContextModule(ApplicationContextModule applicationContextModule) {
-      Preconditions.checkNotNull(applicationContextModule);
+      this.applicationContextModule = Preconditions.checkNotNull(applicationContextModule);
       return this;
     }
 
     public AuraApp_HiltComponents.SingletonC build() {
-      return new SingletonCImpl();
+      Preconditions.checkBuilderRequirement(applicationContextModule, ApplicationContextModule.class);
+      return new SingletonCImpl(applicationContextModule);
     }
   }
 
@@ -357,12 +365,12 @@ public final class DaggerAuraApp_HiltComponents_SingletonC {
 
     @Override
     public DefaultViewModelFactories.InternalFactoryFactory getHiltInternalFactoryFactory() {
-      return DefaultViewModelFactories_InternalFactoryFactory_Factory.newInstance(Collections.<String>emptySet(), new ViewModelCBuilder(singletonCImpl, activityRetainedCImpl));
+      return DefaultViewModelFactories_InternalFactoryFactory_Factory.newInstance(ImmutableSet.<String>of(), new ViewModelCBuilder(singletonCImpl, activityRetainedCImpl));
     }
 
     @Override
     public Set<String> getViewModelKeys() {
-      return Collections.<String>emptySet();
+      return ImmutableSet.<String>of();
     }
 
     @Override
@@ -399,12 +407,12 @@ public final class DaggerAuraApp_HiltComponents_SingletonC {
 
     @Override
     public Map<String, Provider<ViewModel>> getHiltViewModelMap() {
-      return Collections.<String, Provider<ViewModel>>emptyMap();
+      return ImmutableMap.<String, Provider<ViewModel>>of();
     }
 
     @Override
     public Map<String, Object> getHiltViewModelAssistedMap() {
-      return Collections.<String, Object>emptyMap();
+      return ImmutableMap.<String, Object>of();
     }
   }
 
@@ -478,15 +486,50 @@ public final class DaggerAuraApp_HiltComponents_SingletonC {
 
     @Override
     public void injectAuraAccessibilityService(AuraAccessibilityService auraAccessibilityService) {
+      injectAuraAccessibilityService2(auraAccessibilityService);
+    }
+
+    @CanIgnoreReturnValue
+    private AuraAccessibilityService injectAuraAccessibilityService2(
+        AuraAccessibilityService instance) {
+      AuraAccessibilityService_MembersInjector.injectMacroRecorder(instance, singletonCImpl.macroRecorderProvider.get());
+      AuraAccessibilityService_MembersInjector.injectMacroRepository(instance, singletonCImpl.macroRepositoryProvider.get());
+      AuraAccessibilityService_MembersInjector.injectScreenAnalyzer(instance, singletonCImpl.screenAnalyzerProvider.get());
+      return instance;
     }
   }
 
   private static final class SingletonCImpl extends AuraApp_HiltComponents.SingletonC {
+    private final ApplicationContextModule applicationContextModule;
+
     private final SingletonCImpl singletonCImpl = this;
 
-    private SingletonCImpl() {
+    private dagger.internal.Provider<MacroRecorder> macroRecorderProvider;
 
+    private dagger.internal.Provider<AuraDatabase> provideDatabaseProvider;
 
+    private dagger.internal.Provider<MacroDao> provideMacroDaoProvider;
+
+    private dagger.internal.Provider<Gson> provideGsonProvider;
+
+    private dagger.internal.Provider<MacroRepository> macroRepositoryProvider;
+
+    private dagger.internal.Provider<ScreenAnalyzer> screenAnalyzerProvider;
+
+    private SingletonCImpl(ApplicationContextModule applicationContextModuleParam) {
+      this.applicationContextModule = applicationContextModuleParam;
+      initialize(applicationContextModuleParam);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initialize(final ApplicationContextModule applicationContextModuleParam) {
+      this.macroRecorderProvider = DoubleCheck.provider(new SwitchingProvider<MacroRecorder>(singletonCImpl, 0));
+      this.provideDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<AuraDatabase>(singletonCImpl, 3));
+      this.provideMacroDaoProvider = DoubleCheck.provider(new SwitchingProvider<MacroDao>(singletonCImpl, 2));
+      this.provideGsonProvider = DoubleCheck.provider(new SwitchingProvider<Gson>(singletonCImpl, 4));
+      this.macroRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<MacroRepository>(singletonCImpl, 1));
+      this.screenAnalyzerProvider = DoubleCheck.provider(new SwitchingProvider<ScreenAnalyzer>(singletonCImpl, 5));
     }
 
     @Override
@@ -495,7 +538,7 @@ public final class DaggerAuraApp_HiltComponents_SingletonC {
 
     @Override
     public Set<Boolean> getDisableFragmentGetContextFix() {
-      return Collections.<Boolean>emptySet();
+      return ImmutableSet.<Boolean>of();
     }
 
     @Override
@@ -506,6 +549,43 @@ public final class DaggerAuraApp_HiltComponents_SingletonC {
     @Override
     public ServiceComponentBuilder serviceComponentBuilder() {
       return new ServiceCBuilder(singletonCImpl);
+    }
+
+    private static final class SwitchingProvider<T> implements dagger.internal.Provider<T> {
+      private final SingletonCImpl singletonCImpl;
+
+      private final int id;
+
+      SwitchingProvider(SingletonCImpl singletonCImpl, int id) {
+        this.singletonCImpl = singletonCImpl;
+        this.id = id;
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public T get() {
+        switch (id) {
+          case 0: // com.aura.app.core.record.MacroRecorder 
+          return (T) new MacroRecorder();
+
+          case 1: // com.aura.app.core.data.repository.MacroRepository 
+          return (T) new MacroRepository(singletonCImpl.provideMacroDaoProvider.get(), singletonCImpl.provideGsonProvider.get());
+
+          case 2: // com.aura.app.core.data.local.dao.MacroDao 
+          return (T) DataModule_ProvideMacroDaoFactory.provideMacroDao(singletonCImpl.provideDatabaseProvider.get());
+
+          case 3: // com.aura.app.core.data.local.database.AuraDatabase 
+          return (T) DataModule_ProvideDatabaseFactory.provideDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 4: // com.google.gson.Gson 
+          return (T) DataModule_ProvideGsonFactory.provideGson();
+
+          case 5: // com.aura.app.core.ai.ScreenAnalyzer 
+          return (T) new ScreenAnalyzer(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          default: throw new AssertionError(id);
+        }
+      }
     }
   }
 }

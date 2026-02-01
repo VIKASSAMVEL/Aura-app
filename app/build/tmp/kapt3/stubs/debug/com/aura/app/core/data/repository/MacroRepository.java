@@ -4,6 +4,7 @@ import com.aura.app.core.action.Action;
 import com.aura.app.core.data.local.dao.MacroDao;
 import com.aura.app.core.data.local.entity.MacroEntity;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import kotlinx.coroutines.flow.Flow;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,17 +32,17 @@ public final class MacroRepository {
     }
     
     @org.jetbrains.annotations.Nullable()
-    public final java.lang.Object saveMacro(@org.jetbrains.annotations.NotNull()
-    java.lang.String name, @org.jetbrains.annotations.NotNull()
-    java.util.List<? extends com.aura.app.core.action.Action> actions, @org.jetbrains.annotations.NotNull()
-    kotlin.coroutines.Continuation<? super kotlin.Unit> $completion) {
+    public final java.lang.Object getActionsForMacro(@org.jetbrains.annotations.NotNull()
+    java.lang.String id, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super java.util.List<? extends com.aura.app.core.action.Action>> $completion) {
         return null;
     }
     
     @org.jetbrains.annotations.Nullable()
-    public final java.lang.Object getActionsForMacro(@org.jetbrains.annotations.NotNull()
-    java.lang.String id, @org.jetbrains.annotations.NotNull()
-    kotlin.coroutines.Continuation<? super java.util.List<? extends com.aura.app.core.action.Action>> $completion) {
+    public final java.lang.Object saveMacro(@org.jetbrains.annotations.NotNull()
+    java.lang.String name, @org.jetbrains.annotations.NotNull()
+    java.util.List<? extends com.aura.app.core.action.Action> actions, @org.jetbrains.annotations.NotNull()
+    kotlin.coroutines.Continuation<? super kotlin.Unit> $completion) {
         return null;
     }
     

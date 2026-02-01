@@ -11,7 +11,8 @@ import javax.inject.Singleton
 
 class MacroExecutor(
     private val actionExecutor: ActionExecutor,
-    private val nodeFinder: NodeFinder
+    private val nodeFinder: NodeFinder,
+    private val service: AccessibilityService // Added
 ) {
     suspend fun executeMacro(actions: List<Action>) {
         Log.i("AURA", "Starting Macro Execution: ${actions.size} steps")
@@ -25,7 +26,8 @@ class MacroExecutor(
             when (action) {
                 is Action.Click -> {
                     // 1. Find the node
-                    val node = nodeFinder.findNode(action.selector)
+                    val root = service.rootInActiveWindow
+                    val node = nodeFinder.findNode(root, action.selector)
                     if (node != null) {
                         // 2. Click it
                         // Since we have the AccessibilityNodeInfo, we can try verify it matches.

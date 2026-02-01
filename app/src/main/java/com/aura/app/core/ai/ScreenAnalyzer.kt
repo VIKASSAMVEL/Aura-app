@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.util.ArrayDeque
 import javax.inject.Inject
 import javax.inject.Singleton
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 data class ScreenAnalysisResult(
     val screenType: ScreenType = ScreenType.UNKNOWN,
@@ -23,9 +24,11 @@ enum class ScreenType {
     FEED_SCREEN
 }
 
+
+
 @Singleton
 class ScreenAnalyzer @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private val _analysisResult = MutableStateFlow(ScreenAnalysisResult())
     val analysisResult = _analysisResult.asStateFlow()

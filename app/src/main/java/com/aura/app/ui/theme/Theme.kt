@@ -49,9 +49,11 @@ fun AuraTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
+        if (view.context is Activity) {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+        }
         }
     }
 

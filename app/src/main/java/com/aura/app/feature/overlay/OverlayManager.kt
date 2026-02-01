@@ -18,6 +18,7 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue // Added
 import com.aura.app.core.data.repository.MacroRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,10 +33,9 @@ class OverlayManager(
     private val context: Context,
     private val macroRecorder: MacroRecorder,
     private val macroRepository: MacroRepository,
-    private val screenAnalyzer: com.aura.app.core.ai.ScreenAnalyzer, // Added
+    private val screenAnalyzer: com.aura.app.core.ai.ScreenAnalyzer,
     private val onPlayMacro: (MacroEntity) -> Unit
-) : 
-    androidx.lifecycle.LifecycleOwner, 
+) : androidx.lifecycle.LifecycleOwner, 
     ViewModelStoreOwner, 
     SavedStateRegistryOwner {
 
@@ -43,12 +43,23 @@ class OverlayManager(
     private var overlayView: View? = null
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
-    // ... existing boilerplate ...
+    // Lifecycle & Config
+    private val lifecycleRegistry = LifecycleRegistry(this)
+    private val savedStateRegistryController = SavedStateRegistryController.create(this)
+    private val _viewModelStore = ViewModelStore()
+
+    override val lifecycle: Lifecycle get() = lifecycleRegistry
+    override val savedStateRegistry: SavedStateRegistry get() = savedStateRegistryController.savedStateRegistry
+    override val viewModelStore: ViewModelStore get() = _viewModelStore
+
+    init {
+        // It's often good practice to initialize lifecycle state early if possible,
+        // but for an overlay we usually do it in show().
+    }
 
     fun show() {
         if (overlayView != null) return
         
-        // ... lifecycle init ...
         savedStateRegistryController.performRestore(null)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
@@ -85,7 +96,6 @@ class OverlayManager(
                     val analysis by screenAnalyzer.analysisResult.collectAsState()
 
                     if (showSaveDialog) {
-                         // TODO: Theming for Dialog
                         SaveMacroDialog(
                             actionCount = recordedActions.size,
                             onDismiss = { showSaveDialog = false },
@@ -97,7 +107,6 @@ class OverlayManager(
                             }
                         )
                     } else if (showMacroList) {
-                         // TODO: Theming for MacroList
                         MacroListContent(
                             macros = allMacros,
                             onPlay = { macro -> 
@@ -134,7 +143,6 @@ class OverlayManager(
                 }
             }
         }
-    // ... rest of show ...
 
         try {
             windowManager.addView(view, params)
