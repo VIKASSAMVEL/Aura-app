@@ -43,11 +43,7 @@ class OverlayManager(private val context: Context) :
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            } else {
-                WindowManager.LayoutParams.TYPE_PHONE
-            },
+            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or 
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
@@ -69,11 +65,15 @@ class OverlayManager(private val context: Context) :
             }
         }
 
-        windowManager.addView(view, params)
-        overlayView = view
-        
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        try {
+            windowManager.addView(view, params)
+            overlayView = view
+            
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun hide() {

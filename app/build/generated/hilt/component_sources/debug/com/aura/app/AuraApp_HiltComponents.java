@@ -1,6 +1,7 @@
 package com.aura.app;
 
 import com.aura.app.core.accessibility.AuraAccessibilityService_GeneratedInjector;
+import com.aura.app.di.DataModule;
 import dagger.Binds;
 import dagger.Component;
 import dagger.Module;
@@ -119,6 +120,7 @@ public final class AuraApp_HiltComponents {
           ApplicationContextModule.class,
           ActivityRetainedCBuilderModule.class,
           ServiceCBuilderModule.class,
+          DataModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class
       }
   )

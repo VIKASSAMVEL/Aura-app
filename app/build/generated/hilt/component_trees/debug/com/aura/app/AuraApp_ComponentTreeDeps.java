@@ -20,6 +20,7 @@ import dagger.hilt.processor.internal.definecomponent.codegen._dagger_hilt_compo
 import hilt_aggregated_deps._com_aura_app_AuraApp_GeneratedInjector;
 import hilt_aggregated_deps._com_aura_app_MainActivity_GeneratedInjector;
 import hilt_aggregated_deps._com_aura_app_core_accessibility_AuraAccessibilityService_GeneratedInjector;
+import hilt_aggregated_deps._com_aura_app_di_DataModule;
 import hilt_aggregated_deps._dagger_hilt_android_flags_FragmentGetContextFix_FragmentGetContextFixEntryPoint;
 import hilt_aggregated_deps._dagger_hilt_android_flags_HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule;
 import hilt_aggregated_deps._dagger_hilt_android_internal_lifecycle_DefaultViewModelFactories_ActivityEntryPoint;
@@ -63,6 +64,7 @@ import hilt_aggregated_deps._dagger_hilt_android_internal_modules_HiltWrapper_Ac
         _com_aura_app_AuraApp_GeneratedInjector.class,
         _com_aura_app_MainActivity_GeneratedInjector.class,
         _com_aura_app_core_accessibility_AuraAccessibilityService_GeneratedInjector.class,
+        _com_aura_app_di_DataModule.class,
         _dagger_hilt_android_flags_FragmentGetContextFix_FragmentGetContextFixEntryPoint.class,
         _dagger_hilt_android_flags_HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
         _dagger_hilt_android_internal_lifecycle_DefaultViewModelFactories_ActivityEntryPoint.class,

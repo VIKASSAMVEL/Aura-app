@@ -51,13 +51,11 @@ class MainActivity : ComponentActivity() {
 fun PermissionScreen() {
     val context = LocalContext.current
     var isServiceEnabled by remember { mutableStateOf(false) }
-    var isOverlayEnabled by remember { mutableStateOf(false) }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     
     LaunchedEffect(lifecycle) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
             isServiceEnabled = isAccessibilityServiceEnabled(context, com.aura.app.core.accessibility.AuraAccessibilityService::class.java)
-            isOverlayEnabled = Settings.canDrawOverlays(context)
         }
     }
 
@@ -66,30 +64,21 @@ fun PermissionScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (isServiceEnabled && isOverlayEnabled) {
+        if (isServiceEnabled) {
             Text(text = "AURA God Mode: ACTIVE", style = MaterialTheme.typography.headlineMedium)
             Text(text = "The agent is ready to observe.", style = MaterialTheme.typography.bodyMedium)
         } else {
             Text(text = "Permissions Required", style = MaterialTheme.typography.headlineMedium)
             Spacer(modifier = Modifier.height(24.dp))
             
-            if (!isOverlayEnabled) {
-                Button(onClick = {
-                    val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, android.net.Uri.parse("package:${context.packageName}"))
-                    context.startActivity(intent)
-                }) {
-                    Text(text = "Enable Overlay (Draw over apps)")
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            
-            if (!isServiceEnabled) {
-                Button(onClick = {
-                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                    context.startActivity(intent)
-                }) {
-                    Text(text = "Enable Accessibility")
-                }
+            Text(text = "1. Enable Accessibility Service to allow AURA to see and act.", style = MaterialTheme.typography.bodyLarge)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(onClick = {
+                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                context.startActivity(intent)
+            }) {
+                Text(text = "Enable Accessibility")
             }
         }
     }
