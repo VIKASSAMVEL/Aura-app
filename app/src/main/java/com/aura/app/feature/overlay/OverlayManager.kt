@@ -37,8 +37,8 @@ class OverlayManager(private val context: Context) :
     fun show() {
         if (overlayView != null) return
 
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         savedStateRegistryController.performRestore(null)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
