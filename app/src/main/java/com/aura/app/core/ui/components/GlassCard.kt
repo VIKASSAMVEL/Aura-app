@@ -30,16 +30,34 @@ fun GlassCard(
                 BorderStroke(
                     1.dp,
                     Brush.linearGradient(
-                        colors = listOf(NeonCyan.copy(alpha = 0.5f), Color.Transparent)
+                        colors = listOf(
+                            NeonCyan.copy(alpha = 0.5f),
+                            GlassBorder,
+                            NeonPurple.copy(alpha = 0.3f),
+                            Color.Transparent
+                        )
                     )
                 ),
                 RoundedCornerShape(cornerRadius)
             ),
-        color = GlassWhite, // Semi-transparent background
+        color = Color.Transparent, // Handle background manually for gradient
         shape = RoundedCornerShape(cornerRadius),
         tonalElevation = 0.dp
     ) {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(
+            modifier = Modifier
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            GlassWhite,
+                            Color(0x0DFFFFFF) // Very faint white for depth
+                        ),
+                        start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                        end = androidx.compose.ui.geometry.Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                    )
+                )
+                .padding(16.dp)
+        ) {
             content()
         }
     }

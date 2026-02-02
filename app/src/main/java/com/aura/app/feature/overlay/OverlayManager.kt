@@ -41,6 +41,7 @@ class OverlayManager(
 
     private val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private var overlayView: View? = null
+    private var params: WindowManager.LayoutParams? = null
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     // Lifecycle & Config
@@ -63,7 +64,7 @@ class OverlayManager(
         savedStateRegistryController.performRestore(null)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
-        val params = WindowManager.LayoutParams(
+        params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
@@ -71,10 +72,11 @@ class OverlayManager(
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or 
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
             PixelFormat.TRANSLUCENT
-        )
-        params.gravity = Gravity.TOP or Gravity.START
-        params.x = 100
-        params.y = 200
+        ).apply {
+            gravity = Gravity.TOP or Gravity.START
+            x = 100
+            y = 200
+        }
 
         val view = ComposeView(context).apply {
             setViewTreeLifecycleOwner(this@OverlayManager)
@@ -89,6 +91,11 @@ class OverlayManager(
                     var showSaveDialog by remember { mutableStateOf(false) }
                     var showMacroList by remember { mutableStateOf(false) }
                     
+                    // Effect to handle window focus for keyboard
+                    androidx.compose.runtime.LaunchedEffect(showSaveDialog) {
+                        setFocusable(showSaveDialog)
+                    }
+
                     // Data for List
                     val allMacros by macroRepository.allMacros.collectAsState(initial = emptyList())
                     
@@ -164,5 +171,18 @@ class OverlayManager(
         windowManager.removeView(view)
         overlayView = null
         _viewModelStore.clear()
+    }
+
+
+    private fun setFocusable(focusable: Boolean) {
+        val p = params ?: return
+        val view = overlayView ?: return
+        
+        if (focusable) {
+            p.flags = p.flags and WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv()
+        } else {
+            p.flags = p.flags or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        }
+        windowManager.updateViewLayout(view, p)
     }
 }

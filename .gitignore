@@ -13,7 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
-
+/.agent
 # Android Studio 3.3 studio.xml
 .idea/studio.xml
 

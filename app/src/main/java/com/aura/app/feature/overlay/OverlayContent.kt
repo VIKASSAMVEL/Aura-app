@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -59,73 +60,107 @@ fun OverlayContent(
         label = "scale"
     )
 
+    // Scanning Line Animation (Cyberpunk effect)
+    val scanAlpha by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = androidx.compose.animation.core.LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "scan"
+    )
+
     Surface(
         shape = RoundedCornerShape(50), // Pill shape
-        color = AuraBlack.copy(alpha = 0.85f), // Dark semi-transparent
+        color = AuraBlack.copy(alpha = 0.9f), // Darker for better contrast
         border = BorderStroke(1.5.dp, borderBrush),
         shadowElevation = 10.dp,
         modifier = Modifier.wrapContentSize()
     ) {
-        Row(
-            modifier = Modifier
-                .clickable { onClick() }
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Status Identifier (Glowing Dot)
+        Box {
+            // Scanning Line Overlay
             Box(
                 modifier = Modifier
-                    .size(10.dp)
-                    .scale(if (isRecording) pulseScale else 1f)
+                    .matchParentSize()
                     .background(
-                        color = if (isRecording) NeonRed else NeonGreen,
-                        shape = CircleShape
-                    )
-                    .border(1.dp, Color.White.copy(alpha = 0.5f), CircleShape)
-            )
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column(
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    text = statusText.uppercase(),
-                    color = TextPrimary,
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
-                    )
-                )
-                
-                if (!aiLabel.isNullOrEmpty()) {
-                    Text(
-                        text = "AI_LOCK: $aiLabel",
-                        color = NeonCyan,
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontSize = 8.sp,
-                            fontWeight = FontWeight.Bold
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                NeonCyan.copy(alpha = 0.1f * scanAlpha),
+                                Color.Transparent
+                            )
                         )
                     )
-                }
-            }
+            )
 
-            Spacer(modifier = Modifier.width(16.dp))
-
-
-            // Record Button (Futuristic Icon)
-            IconButton(
-                onClick = onRecordClick,
+            Row(
                 modifier = Modifier
-                    .size(32.dp)
-                    .background(GlassWhite, CircleShape) // Glass background for button
+                    .clickable { onClick() }
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = if (isRecording) Icons.Filled.Close else Icons.Filled.PlayArrow,
-                    contentDescription = null,
-                    tint = if (isRecording) NeonRed else NeonCyan,
-                    modifier = Modifier.size(18.dp)
+                // Status Identifier (Glowing Dot)
+                Box(
+                    modifier = Modifier
+                        .size(10.dp)
+                        .scale(if (isRecording) pulseScale else 1f)
+                        .background(
+                            color = if (isRecording) NeonRed else NeonGreen,
+                            shape = CircleShape
+                        )
+                        .border(1.dp, Color.White.copy(alpha = 0.8f), CircleShape)
+                        .shadow(4.dp, CircleShape, spotColor = if (isRecording) NeonRed else NeonGreen)
                 )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Column(
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = statusText.uppercase(),
+                        color = TextPrimary,
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.2.sp,
+                            shadow = androidx.compose.ui.graphics.Shadow(
+                                color = if (isRecording) NeonRed else NeonCyan,
+                                blurRadius = 4f
+                            )
+                        )
+                    )
+                    
+                    if (!aiLabel.isNullOrEmpty()) {
+                        Text(
+                            text = "AI_LOCK: $aiLabel",
+                            color = NeonCyan,
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                letterSpacing = 0.5.sp
+                            )
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(20.dp))
+
+                // Record Button (Futuristic Icon)
+                IconButton(
+                    onClick = onRecordClick,
+                    modifier = Modifier
+                        .size(36.dp)
+                        .border(1.dp, GlassBorder, CircleShape)
+                        .background(GlassWhite, CircleShape)
+                ) {
+                    Icon(
+                        imageVector = if (isRecording) Icons.Filled.Close else Icons.Filled.PlayArrow,
+                        contentDescription = null,
+                        tint = if (isRecording) NeonRed else NeonCyan,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
         }
     }
